@@ -7,70 +7,32 @@ def simulator():
 
     RAM = []
     ROM = []
-    instructions = []
+    PC = 0
     ACC = 0
 
-    instructions = []
     ROM = np.loadtxt('instructions.txt', dtype=str)
+    binary_instructions = hextoBin(ROM)
 
-    print(ROM) #hex array
-    return ROM
+    print("HEX ARRAY: " , ROM)
+    print("BINARY ARRAY: " , binary_instructions)
 
-def hextoBin(HexArr):
+def hextoBin(hexArr):
+    binArr = []
 
-    return HexArr
+    index = 0
+    for i in hexArr:
+        my_hexdata = i
+
+        scale = 16  ## equals to hexadecimal
+
+        num_of_bits = 16
+
+        binData = bin(int(my_hexdata, scale))[2:].zfill(num_of_bits)
+        binArr.append(binData)
+    #print(binArr)
+    return binArr
 
 
-
-def BRZ(x, ACC, RAM, PC):
-    if ACC == 0:
-        PC += x
-
-def BRN(x, ACC, RAM, PC):
-    if ACC < 0:
-        PC += x
-
-def LDI(x, ACC, RAM, PC):
-    ACC == x
-
-def LDM(x, ACC, RAM, PC):
-    ACC == RAM[x]
-
-def STR(x, ACC, RAM, PC):
-    RAM[x] == ACC
-
-def ADD(x, ACC, RAM, PC):
-    ACC == ACC + RAM[x]
-
-def SUB(x, ACC, RAM, PC):
-    ACC == ACC - RAM[x]
-
-def MUL(x, ACC, RAM, PC):
-    ACC == ACC * RAM[x]
-
-def DEV(x, ACC, RAM, PC):
-    ACC == ACC / RAM[x]
-
-def NEG(x, ACC, RAM, PC):
-    ACC == -ACC
-
-def LSL(x, ACC, RAM, PC):
-    ACC == ACC << x
-
-def LSR(x, ACC, RAM, PC):
-    ACC == ACC >> x
-
-def XOR(x, ACC, RAM, PC):
-    ACC == ACC ^ RAM[x]
-
-def NOT(x, ACC, RAM, PC):
-    ACC != ACC
-
-def AND(x, ACC, RAM, PC):
-    ACC == ACC and RAM[x]
-
-def ORR(x, ACC, RAM, PC):
-    ACC == ACC or RAM[x]
 
 
 def BRZ(x, ACC, RAM, PC):
@@ -158,8 +120,6 @@ def getOpCode(opcode, x, ACC, RAM, PC):
       AND(x, ACC, RAM, PC)
   elif opcode == "1111":
       OR(x, ACC, RAM, PC)
-
-
 
 
 if __name__ == '__main__':
