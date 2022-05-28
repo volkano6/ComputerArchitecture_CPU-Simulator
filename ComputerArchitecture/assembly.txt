@@ -1,6 +1,6 @@
     LDI 2000       # Places number to be squared into ACC (assume 5)
     STR 1       # Store 5 into memory so it can be multiplied .
     MUL 1
-    NEG 5      # Store result into memory location 0
+    NEG 77     # Store result into memory location 0
     LDI 0       # Stop the computer.
-    BRZ 6
+    BRZ 9

@@ -1,12 +1,7 @@
 
 def main():
 
-    RAM = []
-    ROM = []
-    compiler_to_simulator = []
-    ACC = 0
-
-
+    instructions = []
 
     assembly_file = open("assembly.txt", "r+")
     lines = assembly_file.readlines()
@@ -17,10 +12,11 @@ def main():
 
         line_info = line.split(" ")
         line_hex_code = binToHexa(getOpCode(line_info[0])) + decimalToHexadecimal(int(line_info[1]))
-        compiler_to_simulator.append(line_hex_code)
+        instructions.append(line_hex_code)
 
-    print(compiler_to_simulator)
-
+    output_file = open("instructions.txt", "w+")
+    for i in range(len(instructions)):
+        output_file.write(instructions[i] + " ")
 
 def getOpCode(menomic):
     menomic = menomic.upper()
