@@ -65,7 +65,7 @@ def simulator():
 
         print("ACC :", ACC)
         print("PC : ", PC, "-->   0 x", ROM[step])
-        print(RAM)
+        print("RAM :", RAM)
         PC += 1
 
 

@@ -3,8 +3,13 @@ def main():
 
     instructions = []
 
-    assembly_file = open("assembly.txt", "r+")
-    lines = assembly_file.readlines()
+    assembly_file = "assembly.txt"
+
+    assembly_restored_file = restore_file(assembly_file)
+
+    file = open(assembly_restored_file, "r+")
+
+    lines = file.readlines()
 
     for line in lines:
 
@@ -120,6 +125,62 @@ def decimalToHexadecimal(decimal):
         hexadecimal = "0" + hexadecimal
 
     return hexadecimal
+
+def restore_file(assembly_file):
+    with open(assembly_file) as fp:
+        contents = fp.readlines()
+
+    # initialize two counter to check mismatch between "(" and ")"
+    open_bracket_counter = 0
+    close_bracket_counter = 0
+
+    # whenever an element deleted from the list length of the list will be decreased
+    decreasing_counter = 0
+
+    for number in range(len(contents)):
+        # checking if the line contains "#" or not
+        if "#" in contents[number - decreasing_counter]:
+
+            # delete the line if startswith "#"
+            if contents[number - decreasing_counter].startswith("#"):
+                contents.remove(contents[number - decreasing_counter])
+                decreasing_counter += 1
+
+            # delete the character after the "#"
+            else:
+                newline = ""
+                for character in contents[number - decreasing_counter]:
+                    if character == "(":
+                        open_bracket_counter += 1
+                        newline += character
+                    elif character == ")":
+                        close_bracket_counter += 1
+                        newline += character
+                    elif character == "#" and open_bracket_counter == close_bracket_counter:
+                        break
+                    else:
+                        newline += character
+                contents.remove(contents[number - decreasing_counter])
+                contents.insert(number - decreasing_counter, newline)
+
+    print(contents)
+    contents = [x.strip(' ') for x in contents]
+    contents = [x.replace("\n", "") for x in contents]
+    space_counter = 0
+    for i in range(len(contents)):
+        if contents[i] == "":
+            space_counter += 1
+            print(space_counter)
+    for i in range(space_counter):
+        contents.remove("")
+
+    print(contents)
+    # writing into a new file
+    with open("assembly_out.txt", "w+") as fp:
+        for i in range(len(contents)):
+            fp.writelines(contents[i])
+            fp.writelines("\n")
+    return "assembly_out.txt"
 
 
 # Press the green button in the gutter to run the script.

@@ -1,6 +1,16 @@
+# Program for finding square of a positive integer.
+
     LDI 5       # Places number to be squared into ACC (assume 5)
-    STR 1       # Store 5 into memory so it can be multiplied .
+    STR 1
+
+
+
+          # Store 5 into memory so it can be multiplied .
     MUL 1
-    STR 0       # Store result into memory location 0
+
+    STR 0
+
+    # Store result into memory location 0
     LDI 0       # Stop the computer.
+          # Stop the computer.
     BRZ 0
