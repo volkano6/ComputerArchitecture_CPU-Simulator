@@ -1,16 +1,19 @@
 import numpy as np
+from Assembler import binToHexa
 
 
 def simulator():
-    RAM = [0] * 20
+    RAM = [0] * 10000
     ROM = []
     PC = 0
     ACC = 0
     opcode = None
     rest = 0
+    value_code = []
 
     ROM = np.loadtxt('instructions.txt', dtype=str)
     binary_instructions = hextoBin(ROM)
+
     print("   ------------- ROM -------------")
     for i in range(len(ROM)):
         print("  ", i, ":", "0x", ROM[i], "-->", binary_instructions[i])
@@ -21,12 +24,7 @@ def simulator():
 
         opcode = (binary_instructions[step][0:4])
         rest = (binary_instructions[step][4:])
-
-        if binaryToDecimal(int(rest)) == 0:
-            rest = 0
-        else:
-            rest = rest.lstrip("0")
-        rest = binaryToDecimal(int(rest))
+        rest = test_negate(rest)
 
         if opcode == "0000":
             if ACC == 0:
@@ -47,7 +45,14 @@ def simulator():
         elif opcode == "0111":
             ACC = ACC * RAM[rest]
         elif opcode == "1000":
-            ACC = ACC / RAM[rest]
+
+            try:
+                ACC = ACC / RAM[rest]
+            except ZeroDivisionError:
+                print("ACC CAN NOT DIVIDED BY ZERO")
+                print("EXIT THE PROGRAM")
+                exit(0)
+
         elif opcode == "1001":
             ACC = 0 - ACC
         elif opcode == "1010":
@@ -68,6 +73,34 @@ def simulator():
         print("RAM :", RAM)
         PC += 1
 
+
+def test_negate(rest):
+    if binaryToDecimal(int(rest)) > 2048:
+        hex_val = "F" + hex(binaryToDecimal(int(rest)))[2:].upper()
+        rest = "{0:08b}".format(int(hex_val, 16))
+        rest = signed2s_complement(rest)
+
+        if binaryToDecimal(int(rest)) == 0:
+            rest = 0
+        else:
+            rest = rest.lstrip("0")
+        rest = binaryToDecimal(int(rest))
+
+        return 0-rest
+    else:
+        if binaryToDecimal(int(rest)) == 0:
+            rest = 0
+        else:
+            rest = rest.lstrip("0")
+        rest = binaryToDecimal(int(rest))
+        return rest
+
+
+def signed2s_complement(x):
+    x = x.replace("0", "x").replace("1", "0").replace("x", "1")
+    integer_sum = int(x, 2) + int("000000000001", 2)
+    binary_sum = bin(integer_sum)
+    return binary_sum[2:]
 
 
 def hextoBin(hexArr):

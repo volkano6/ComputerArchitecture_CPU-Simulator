@@ -117,6 +117,9 @@ def decimalToHexadecimal(decimal):
         hexadecimal = conversion_table[remainder] + hexadecimal
         decimal = decimal // 16
 
+    if decimal < 0:
+        hexadecimal = str(to_hex(decimal, 12))
+
     if len(hexadecimal) == 0:
         hexadecimal += "000"
     if len(hexadecimal) == 1:
@@ -163,18 +166,15 @@ def restore_file(assembly_file):
                 contents.remove(contents[number - decreasing_counter])
                 contents.insert(number - decreasing_counter, newline)
 
-    print(contents)
     contents = [x.strip(' ') for x in contents]
     contents = [x.replace("\n", "") for x in contents]
     space_counter = 0
     for i in range(len(contents)):
         if contents[i] == "":
             space_counter += 1
-            print(space_counter)
     for i in range(space_counter):
         contents.remove("")
 
-    print(contents)
     # writing into a new file
     with open("assembly_out.txt", "w+") as fp:
         for i in range(len(contents)):
@@ -182,6 +182,18 @@ def restore_file(assembly_file):
             fp.writelines("\n")
     return "assembly_out.txt"
 
+def to_hex(val, nbits):
+  return hex((val + (1 << nbits)) % (1 << nbits)).lstrip('0x')
+
+def _to_int(val, nbits):
+    i = int(val, 16)
+    if i >= 2 ** (nbits - 1):
+        i -= 2 ** nbits
+    return i
+
+def hex2complement(number):
+    hexadecimal_result = format(number, "03X")
+    return hexadecimal_result.zfill(4)
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
