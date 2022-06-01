@@ -33,9 +33,11 @@ def simulator():
         if opcode == "0000":
             if ACC == 0:
                 PC = PC + rest
+            PC += 1
         elif opcode == "0001":
             if ACC < 0:
                 PC = PC + rest
+            PC += 1
         elif opcode == "0010":
             ACC = rest
             PC += 1
@@ -44,6 +46,7 @@ def simulator():
             PC += 1
         elif opcode == "0100":
             RAM[rest] = ACC
+            print(ACC)
             PC += 1
         elif opcode == "0101":
             ACC = ACC + RAM[rest]
