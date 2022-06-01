@@ -18,12 +18,16 @@ def simulator():
     for i in range(len(ROM)):
         print("  ", i, ":", "0x", ROM[i], "-->", binary_instructions[i])
 
-    for step in range(len(ROM)):
-        print("\n")
-        print("Step", step + 1, ":")
+    last_opcode = ""
+    step_count = 1
+    while PC < len(ROM):
 
-        opcode = (binary_instructions[step][0:4])
-        rest = (binary_instructions[step][4:])
+        print("\n")
+        print("Step", step_count, ":")
+        step_count += 1
+        print("PC : ", PC)
+        opcode = (binary_instructions[PC][0:4])
+        rest = (binary_instructions[PC][4:])
         rest = test_negate(rest)
 
         if opcode == "0000":
@@ -34,44 +38,55 @@ def simulator():
                 PC = PC + rest
         elif opcode == "0010":
             ACC = rest
+            PC += 1
         elif opcode == "0011":
             ACC = RAM[rest]
+            PC += 1
         elif opcode == "0100":
             RAM[rest] = ACC
+            PC += 1
         elif opcode == "0101":
             ACC = ACC + RAM[rest]
+            PC += 1
         elif opcode == "0110":
             ACC = ACC - RAM[rest]
+            PC += 1
         elif opcode == "0111":
             ACC = ACC * RAM[rest]
+            PC += 1
         elif opcode == "1000":
-
             try:
                 ACC = ACC / RAM[rest]
+                PC += 1
             except ZeroDivisionError:
                 print("ACC CAN NOT DIVIDED BY ZERO")
                 print("EXIT THE PROGRAM")
                 exit(0)
-
         elif opcode == "1001":
             ACC = 0 - ACC
+            PC += 1
         elif opcode == "1010":
             ACC = ACC << rest
+            PC += 1
         elif opcode == "1011":
             ACC = ACC >> rest
+            PC += 1
         elif opcode == "1100":
             ACC = ACC ^ RAM[rest]
+            PC += 1
         elif opcode == "1101":
             ACC = ~ACC
+            PC += 1
         elif opcode == "1110":
             ACC = ACC & RAM[rest]
+            PC += 1
         elif opcode == "1111":
             ACC = ACC | RAM[rest]
+            PC += 1
 
+        last_opcode = opcode
         print("ACC :", ACC)
-        print("PC : ", PC, "-->   0 x", ROM[step])
         print("RAM :", RAM)
-        PC += 1
 
 
 def test_negate(rest):
