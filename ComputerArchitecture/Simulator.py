@@ -30,6 +30,8 @@ def simulator():
         rest = (binary_instructions[PC][4:])
         rest = test_negate(rest)
 
+        print("Before ACC :", ACC )
+
         if opcode == "0000":
             if ACC == 0:
                 PC = PC + rest
@@ -49,7 +51,6 @@ def simulator():
             PC += 1
         elif opcode == "0100":
             RAM[rest] = ACC
-            print(ACC)
             PC += 1
         elif opcode == "0101":
             ACC = ACC + RAM[rest]
