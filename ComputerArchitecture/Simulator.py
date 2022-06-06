@@ -94,6 +94,7 @@ def simulator():
         last_opcode = opcode
         print("ACC :", ACC)
         print("RAM :", RAM)
+
         if (opcode == "0000" or opcode == "0001") and rest == 0 and ACC == 0:
             print("\n")
             print("Stopped the Computer!!!")
