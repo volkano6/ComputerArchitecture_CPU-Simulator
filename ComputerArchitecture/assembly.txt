@@ -1,22 +1,21 @@
-# Program for finding square of a positive integer.
-    BRZ 3        # comment example
-    XOR 3        # comment example
-    DIV 3
-    LDI 4        # comment example
-    STR 1
+# example comment
+BRZ 3
+XOR 3       # example comment
+DIV 3
+LDI 4      # example comment
 
-    LDI -9       # Places number to be squared into ACC (assume 5)
-    STR 5             # Store 5 into memory so it can be multiplied .
-    ADD 1        # comment example
-    BRN -1
-    MUL 5
-    STR 2        # comment example
-    ADD 5        # comment example
 
-       # comment example
-    STR 11
-    LDI 0    # ıt wıll be stopped computer
-    BRZ 0
-    LDI 8
-    STR 3
+STR 1
+LDI -9
+STR 5       # example comment
+ADD 1
 
+BRN -1
+MUL 5       # example comment
+STR 2
+ADD 5
+STR 11
+LDI 0
+BRZ 0       # example comment
+LDI 8
+STR 3      # example comment
